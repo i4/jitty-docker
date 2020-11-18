@@ -7,7 +7,7 @@ stages:
 
 ## default variables - may be overwritten from projects variables
 variables:
-  REGISTRY: hub.docker.com
+  REGISTRY: hub.docker.com/r
   NAMESPACE: $USER
   IMAGE: jittytest
   TAG: $CI_JOB_NAME
