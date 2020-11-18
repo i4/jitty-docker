@@ -7,7 +7,7 @@ stages:
 
 ## default variables - may be overwritten from projects variables
 variables:
-  REGISTRY: hub.docker.com
+  REGISTRY: index.docker.io
   NAMESPACE: $USER
   IMAGE: jittytest
   TAG: $CI_JOB_NAME
@@ -15,7 +15,7 @@ variables:
 .kaniko:
   stage: build
   script:
-  - echo "{\"auths\":{\"https://$REGISTRY/v1/\":{\"username\":\"$USER\",\"password\":\"$PASSWORD\"}}}" > /kaniko/.docker/config.json
+  - echo "{\"auths\":{\"https://$REGISTRY/v1/\":{\"auth\":\"$AUTH\"}}}" > /kaniko/.docker/config.json
   - /kaniko/executor --context $CI_PROJECT_DIR --dockerfile $CI_PROJECT_DIR/Dockerfile.$TAG --destination $IMAGE:$TAG
   only:
     variables:
