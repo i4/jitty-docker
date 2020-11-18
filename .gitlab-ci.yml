@@ -15,9 +15,8 @@ variables:
 .kaniko:
   stage: build
   script:
-  - '[ -d context ] || mkdir context'
-  - '[ -d "docker-images/${REGISTRY}/${NAMESPACE}/" ] || mkdir -p "docker-images/${REGISTRY}/${NAMESPACE}/${IMAGE}"'
-  - '(set -x; /kaniko/executor --context "${CI_PROJECT_DIR}/context" --dockerfile ${DOCKERFILE-Dockerfile.$TAG} --destination "${REGISTRY}/${NAMESPACE}/${IMAGE}:${TAG}" "--tarPath=docker-images/${REGISTRY}/${NAMESPACE}/${IMAGE}/${TAG}.tar" --no-push)'
+  - echo "{\"auths\":{\"https://$REGISTRY/v1/\":{\"username\":\"$USER\",\"password\":\"$PASSWORD\"}}}" > /kaniko/.docker/config.json
+  - /kaniko/executor --context $CI_PROJECT_DIR --dockerfile $CI_PROJECT_DIR/Dockerfile.$TAG --destination $IMAGE:$TAG
   only:
     variables:
     - $REGISTRY
@@ -30,36 +29,6 @@ variables:
   artifacts:
     paths:
     - docker-images/*
-
-.crane:
-  stage: publish
-  only:
-    variables:
-    - $USER
-    - $PASSWORD
-    - $REGISTRY
-    - $NAMESPACE
-    - $IMAGE
-  image:
-    name: gcr.io/go-containerregistry/crane:debug
-    entrypoint: [""]
-  script:
-    - 'cd "docker-images/$REGISTRY/${NAMESPACE}/${IMAGE}" || exit 0'
-    - 'crane auth login -u $USER -p $PASSWORD $REGISTRY'
-    - 'rval=0'
-    - 'for archive in *.tar; do (set -x; crane push "${archive}" "${NAMESPACE}/${IMAGE}:${archive:0:-4}") || rval=$?; done'
-    - 'cd "${CI_PROJECT_DIR}"'
-    - '[ "${rval}" == 0 ] || exit $?'
-  variables:
-    GIT_STRATEGY: none
-
-publish:
-  extends: [ .crane ]
-  only:
-    refs:
-    - master
-    changes:
-    - Dockerfile.*
 
 
 ## Add new Dockerfiles as jobs below
