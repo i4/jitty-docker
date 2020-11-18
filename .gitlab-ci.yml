@@ -7,7 +7,7 @@ stages:
 
 ## default variables - may be overwritten from projects variables
 variables:
-  REGISTRY: hub.docker.com/r
+  REGISTRY: hub.docker.com
   NAMESPACE: $USER
   IMAGE: jittytest
   TAG: $CI_JOB_NAME
@@ -47,7 +47,7 @@ variables:
     - 'cd "docker-images/$REGISTRY/${NAMESPACE}/${IMAGE}" || exit 0'
     - 'crane auth login -u $USER -p $PASSWORD $REGISTRY'
     - 'rval=0'
-    - 'for archive in *.tar; do (set -x; crane push "${archive}" "${REGISTRY}/${NAMESPACE}/${IMAGE}:${archive:0:-4}") || rval=$?; done'
+    - 'for archive in *.tar; do (set -x; crane push "${archive}" "${REGISTRY}/r/${NAMESPACE}/${IMAGE}:${archive:0:-4}") || rval=$?; done'
     - 'cd "${CI_PROJECT_DIR}"'
     - '[ "${rval}" == 0 ] || exit $?'
   variables:
