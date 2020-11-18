@@ -1,0 +1,107 @@
+### TODO:
+# include a check whether all Dockerfile.* files are referenced as a build step
+
+stages:
+  - build
+  - publish
+
+## default variables - may be overwritten from projects variables
+variables:
+  REGISTRY: hub.docker.io
+  NAMESPACE: $USER
+  IMAGE: jittytest
+  TAG: $CI_JOB_NAME
+
+.kaniko:
+  stage: build
+  script:
+  - '[ -d context ] || mkdir context'
+  - '[ -d "docker-images/${REGISTRY}/${NAMESPACE}/" ] || mkdir -p "docker-images/${REGISTRY}/${NAMESPACE}/${IMAGE}"'
+  - '(set -x; /kaniko/executor --context "${CI_PROJECT_DIR}/context" --dockerfile ${DOCKERFILE-Dockerfile.$TAG} --destination "${REGISTRY}/${NAMESPACE}/${IMAGE}:${TAG}" "--tarPath=docker-images/${REGISTRY}/${NAMESPACE}/${IMAGE}/${TAG}.tar" --no-push)'
+  only:
+    variables:
+    - $REGISTRY
+    - $NAMESPACE
+    - $IMAGE
+    - $TAG
+  image:
+    name: gcr.io/kaniko-project/executor:debug
+    entrypoint: [""]
+  artifacts:
+    paths:
+    - docker-images/*
+
+.crane:
+  stage: publish
+  only:
+    variables:
+    - $USER
+    - $PASSWORD
+    - $REGISTRY
+    - $NAMESPACE
+    - $IMAGE
+  image:
+    name: gcr.io/go-containerregistry/crane:debug
+    entrypoint: [""]
+  script:
+    - 'cd "docker-images/$REGISTRY/${NAMESPACE}/${IMAGE}" || exit 0'
+    - 'crane auth login -u $USER -p $PASSWORD $REGISTRY'
+    - 'rval=0'
+    - 'for archive in *.tar; do (set -x; crane push "${archive}" "${REGISTRY}/${NAMESPACE}/${IMAGE}:${archive:0:-4}") || rval=$?; done'
+    - 'cd "${CI_PROJECT_DIR}"'
+    - '[ "${rval}" == 0 ] || exit $?'
+  variables:
+    GIT_STRATEGY: none
+
+publish:
+  extends: [ .crane ]
+  only:
+    refs:
+    - master
+    changes:
+    - Dockerfile.*
+
+
+## Add new Dockerfiles as jobs below
+
+#clang4-x64:
+#  extends: [ .kaniko ]
+#  only:
+#    changes:
+#    - Dockerfile.clang4-x64
+#
+#clang5-x64:
+#  extends: [ .kaniko ]
+#  only:
+#    changes:
+#    - Dockerfile.clang5-x64
+#
+#clang6-x64:
+#  extends: [ .kaniko ]
+#  only:
+#    changes:
+#    - Dockerfile.clang6-x64
+#
+#clang7-x64:
+#  extends: [ .kaniko ]
+#  only:
+#    changes:
+#    - Dockerfile.clang7-x64
+#
+#clang8-x64:
+#  extends: [ .kaniko ]
+#  only:
+#    changes:
+#    - Dockerfile.clang8-x64
+
+clang9-x64:
+  extends: [ .kaniko ]
+  only:
+    changes:
+     - Dockerfile.clang9-x64
+
+#clang10-x64:
+#  extends: [ .kaniko ]
+#  only:
+#    changes:
+#    - Dockerfile.clang10-x64
