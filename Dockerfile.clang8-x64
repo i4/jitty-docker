@@ -1,7 +1,7 @@
+FROM ubuntu:bionic
 
 ARG CLANG_VERSION=8
-
-FROM ubuntu:bionic
+ENV DEBIAN_FRONTEND=noninteractive
 
 RUN \
 	apt-get update -qq  && apt-get install --yes -qq \
