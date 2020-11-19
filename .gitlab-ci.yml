@@ -64,35 +64,35 @@ publish:
 
 ## Add new Dockerfiles as jobs below
 
-#clang4-x64:
-#  extends: [ .kaniko ]
-#  only:
-#    changes:
-#    - Dockerfile.clang4-x64
-#
-#clang5-x64:
-#  extends: [ .kaniko ]
-#  only:
-#    changes:
-#    - Dockerfile.clang5-x64
-#
-#clang6-x64:
-#  extends: [ .kaniko ]
-#  only:
-#    changes:
-#    - Dockerfile.clang6-x64
-#
-#clang7-x64:
-#  extends: [ .kaniko ]
-#  only:
-#    changes:
-#    - Dockerfile.clang7-x64
-#
-#clang8-x64:
-#  extends: [ .kaniko ]
-#  only:
-#    changes:
-#    - Dockerfile.clang8-x64
+clang4-x64:
+  extends: [ .kaniko ]
+  only:
+    changes:
+    - Dockerfile.clang4-x64
+
+clang5-x64:
+  extends: [ .kaniko ]
+  only:
+    changes:
+    - Dockerfile.clang5-x64
+
+clang6-x64:
+  extends: [ .kaniko ]
+  only:
+    changes:
+    - Dockerfile.clang6-x64
+
+clang7-x64:
+  extends: [ .kaniko ]
+  only:
+    changes:
+    - Dockerfile.clang7-x64
+
+clang8-x64:
+  extends: [ .kaniko ]
+  only:
+    changes:
+    - Dockerfile.clang8-x64
 
 clang9-x64:
   extends: [ .kaniko ]
@@ -100,8 +100,8 @@ clang9-x64:
     changes:
      - Dockerfile.clang9-x64
 
-#clang10-x64:
-#  extends: [ .kaniko ]
-#  only:
-#    changes:
-#    - Dockerfile.clang10-x64
+clang10-x64:
+  extends: [ .kaniko ]
+  only:
+    changes:
+    - Dockerfile.clang10-x64
