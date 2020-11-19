@@ -30,7 +30,7 @@ variables:
   artifacts:
     paths:
     - docker-images/*
-  expire_in: 6 hrs
+    expire_in: 6 hrs
 
 .crane:
   stage: publish
