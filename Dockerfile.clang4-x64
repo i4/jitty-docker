@@ -1,6 +1,6 @@
 FROM ubuntu:bionic
 
-ARG CLANG_VERSION=4.0
+ENV CLANG_VERSION=4.0
 ENV DEBIAN_FRONTEND=noninteractive
 
 RUN \
