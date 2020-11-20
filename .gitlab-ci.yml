@@ -65,6 +65,12 @@ publish:
 
 ## Add new Dockerfiles as jobs below
 
+doxygen:
+  extends: [ .kaniko ]
+  only:
+    changes:
+    - Dockerfile.doxygen
+
 clang3.5-x64:
   extends: [ .kaniko ]
   only:
