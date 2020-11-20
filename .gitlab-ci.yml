@@ -112,3 +112,9 @@ clang10-x64:
   only:
     changes:
     - Dockerfile.clang10-x64
+
+clang8-aarch64:
+  extends: [ .kaniko ]
+  only:
+    changes:
+    - Dockerfile.clang8-aarch64

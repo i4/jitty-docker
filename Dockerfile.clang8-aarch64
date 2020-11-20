@@ -1,0 +1,13 @@
+FROM ubuntu:bionic
+
+ENV CLANG_VERSION=8
+ENV DEBIAN_FRONTEND=noninteractive
+
+RUN \
+	apt-get update -qq  && apt-get install --yes -qq \
+	qemu-system-x86 expect wget telnet make \
+	gcc-aarch64-linux-gnu \
+	isolinux make gcc libc6-dev libc6-dev-i386 genisoimage sparse \
+	clang-${CLANG_VERSION} llvm-${CLANG_VERSION}
+
+# gcc-arch64-linux-gnu works with clang5, 6, 7, 8 and 9
