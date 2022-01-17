@@ -1,4 +1,4 @@
-FROM ubuntu:eoan
+FROM ubuntu:focal
 
 ENV CLANG_VERSION=9
 ENV DEBIAN_FRONTEND=noninteractive
