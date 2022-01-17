@@ -7,6 +7,7 @@ RUN \
 	apt-get update -qq \
 	&& apt-get install --yes -qq \
 		clang-${CLANG_VERSION} \
+		cppcheck \
 		expect \
 		gcc \
 		gcc-7-aarch64-linux-gnu \
