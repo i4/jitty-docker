@@ -12,7 +12,7 @@ docker-login:
 
 push-%: %/Dockerfile docker-login
 	@echo "Preparing $*..."
-	@docker build -t inf4/stubs:$* $* && docker push inf4/stubs:$*
+	@docker build -t inf4/jitty:$* $* && docker push inf4/jitty:$*
 
 .PHONY: docker-login push
 
