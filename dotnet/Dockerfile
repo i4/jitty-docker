@@ -29,4 +29,6 @@ RUN apt-get update -qq \
 	&& echo 'en_US.UTF-8 UTF-8' >> /etc/locale.gen && locale-gen && update-locale LANG=en_US.UTF-8 \
 	&& apt install --yes -qq \
 		libicu-dev \
-		liblttng-ust-dev
+		liblttng-ust-dev \
+		make libc6-dev \
+		binutils flex bison
