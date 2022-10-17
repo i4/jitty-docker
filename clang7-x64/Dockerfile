@@ -11,6 +11,7 @@ RUN \
 		expect \
 		gcc \
 		genisoimage \
+		grub-common \
 		isolinux \
 		libc6-dev \
 		libc6-dev-i386 \
@@ -19,4 +20,5 @@ RUN \
 		qemu-system-x86 \
 		sparse \
 		telnet \
+		xorriso \
 		wget
