@@ -7,6 +7,7 @@ RUN \
 	apt-get update -qq \
 	&& apt-get install --yes -qq \
 		clang-${CLANG_VERSION} \
+		clang-tidy-${CLANG_VERSION} \
 		cppcheck \
 		expect \
 		gcc \
@@ -21,4 +22,5 @@ RUN \
 		sparse \
 		telnet \
 		xorriso \
-		wget
+		wget \
+	&& update-alternatives --install /usr/bin/clang-tidy clang-tidy $(command -v clang-tidy-${CLANG_VERSION}) 90
